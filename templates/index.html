@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Intro Lyrics</title>
+  <style>
+    body {
+      background: black;
+      color: white;
+      font-family: monospace;
+      font-size: 30px;
+      text-align: center;
+      padding-top: 20vh;
+    }
+  </style>
+</head>
+<body>
+  <div id="lyrics"></div>
+
+  <script>
+    const messages = [
+      "YOOO FWAEHH🌌",
+      "WECLOME TO MY PAGE.🌟",
+      "M THE DEV U SEACHING FOR🙂‍↕️",
+      "FULLSTACK TILL DEATH 💻",
+      "LET'S BUILD. 🚀",
+    ];
+
+    const display = document.getElementById("lyrics");
+
+    let index = 0;
+
+    function showNextLine() {
+      if (index < messages.length) {
+        display.innerText = messages[index];
+        index++;
+        setTimeout(showNextLine, 1500);
+      } else {
+        window.location.href = "home.html";
+      }
+    }
+    showNextLine();
+  </script>
+</body>
+</html>
