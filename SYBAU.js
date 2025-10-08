@@ -15,3 +15,13 @@ button.addEventListener('click', () => {
   const randomIndex = Math.floor(Math.random() * messages.length);
   paragraph.innerText = messages[randomIndex];
 });
+
+function updateClock() {
+  const now = new Date();
+  const timeString = now.toLocaleTimeString();
+  document.getElementById("clock").textContent = "Current time: " + timeString;
+}
+
+setInterval(updateClock, 1000); // update every second
+updateClock(); // show immediately
+

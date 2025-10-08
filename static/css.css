@@ -55,7 +55,11 @@ body {
 img:hover {
   scale: 1.1;
 }
-
+#clock{
+    display: flex;
+    color: white;
+    font-size: 20px;
+}
 img.icon {
   width: 56px;
   height: 56px;
@@ -63,7 +67,11 @@ img.icon {
   margin: 10px auto 0;
     border-radius: 50%;
 }
-
+.image > a{
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+}
 .Aboutme {
   display: flex;
   flex-direction: column;
@@ -107,7 +115,7 @@ p {
   left: 0;
   right: 0;
   z-index: 1000;
-  background-color: black;
+  background-color: transparent;
   text-align: center;
 }
 button {
@@ -130,7 +138,7 @@ button:hover {
   padding: 10px 20px;
   margin: 5px;
   border-radius: 20px;
-  background-color: darkgrey;
+  background-color: #1a1a1a;
   color: white;
   font-weight: bold;
   text-decoration: none;
@@ -143,4 +151,8 @@ button:hover {
 .topnav a:hover {
   scale: 1.1;
   transition: ease 0.4s;
+}
+
+.writ{
+    margin-top: 20px;
 }
