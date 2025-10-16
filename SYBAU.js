@@ -9,6 +9,8 @@ const messages = [
   "DevOps pipeline? I automate that 🛠️",
   "Broken script? I debug that within 1h✨",
     "Matcha drinker fr love matcha🤍",
+  "Javascript fetching? lightwork.",
+  "Fav thing? Pusheen fr",
 ];
 
 button.addEventListener('click', () => {
@@ -23,5 +25,5 @@ function updateClock() {
 }
 
 setInterval(updateClock, 1000); // update every second
-updateClock(); // show immediately
+updateClock();
 
