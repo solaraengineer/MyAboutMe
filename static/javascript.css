@@ -1,0 +1,40 @@
+body {
+    background-color: #111;
+    color: #00FFAA;
+    font-family: 'Courier New', Courier, monospace;
+    padding: 0;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.terminal {
+    background-color: #000;
+    width: 80%;
+    max-width: 800px;
+    height: 500px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px #00FFAA33;
+    padding: 20px;
+    overflow-y: auto;
+}
+.line {
+    margin: 8px 0;
+}
+.prompt {
+    color: #0F0;
+}
+input {
+    background: none;
+    border: none;
+    color: #00FFAA;
+    font-family: inherit;
+    font-size: 16px;
+    outline: none;
+    width: 90%;
+}
+.response {
+    color: #FFF;
+    margin-left: 20px;
+}

@@ -1,6 +1,7 @@
 const button = document.getElementById('change_text');
 const paragraph = document.getElementById('dev-text');
 
+
 const messages = [
   "I also build secure, scalable APIs and deploy to AWS ☁️",
   "Clean backend, fast frontend — fullstack power 💻",
@@ -24,6 +25,8 @@ function updateClock() {
   document.getElementById("clock").textContent = "Current time: " + timeString;
 }
 
-setInterval(updateClock, 1000); // update every second
+
+
+setInterval(updateClock, 1000);
 updateClock();
 
