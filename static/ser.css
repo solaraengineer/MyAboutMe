@@ -1,0 +1,94 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: AppleSystemUIFont, sans-serif;
+  cursor: url('/assets/pusheen_cursor_30px.png'), auto;
+  color: white;
+  overflow-x: hidden;
+}
+
+/* background */
+.bg-image {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("../assets/Pusheen_Zoom_Background_Campfire_2020.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -1;
+}
+
+/* --- MAIN CONTAINER --- */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 25px;
+  padding: 100px 30px;
+  flex-wrap: wrap; /* makes it responsive on smaller screens */
+}
+
+/* --- BOXES (first, second, third) --- */
+.first, .second, .third {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  border-radius: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+  padding: 30px 25px;
+  width: 350px;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.first:hover, .second:hover, .third:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 50px rgba(255, 255, 255, 0.25);
+  cursor: url("../assets/pointypusheen.png"), pointer;
+}
+
+/* --- HEADINGS --- */
+h1, h2 {
+  text-align: center;
+  color: white;
+  text-shadow: 0 0 8px rgba(255,255,255,0.3);
+  margin-bottom: 15px;
+}
+
+/* --- PARAGRAPHS --- */
+p {
+  background: rgba(255, 192, 203, 0.25);
+  padding: 10px 14px;
+  margin: 8px 0;
+  border-radius: 14px;
+  font-size: 15px;
+  line-height: 1.5;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+
+p:hover {
+  transform: scale(1.01);
+  background: rgba(255, 192, 203, 0.4);
+  cursor: url("../assets/pointypusheen.png"), pointer;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 1150px) {
+  body {
+    flex-direction: column;
+    align-items: center;
+  }
+  .first, .second, .third {
+    width: 90%;
+    margin-bottom: 20px;
+  }
+}

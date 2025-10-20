@@ -1,4 +1,4 @@
-/* GLOBAL RESETS */
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -10,7 +10,7 @@ body {
   cursor: url('/assets/pusheen_cursor_30px.png'), auto;
   height: 100vh;
   overflow-x: hidden;
-  background-color: #000; /* fallback if bg image fails */
+  background-color: #000;
 }
 
 .bg-image {
@@ -26,13 +26,13 @@ body {
   z-index: -1;
 }
 
-/* MAIN CENTERING */
+
 .main {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  padding-top: 100px; /* for space from topnav */
+  padding-top: 100px;
   flex-direction: column;
 }
 
