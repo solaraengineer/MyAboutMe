@@ -51,7 +51,7 @@ function createNewInput() {
                 response.innerText = commands[cmd];
                 terminal.appendChild(response);
             } else {
-                const response = document.createElement('div');
+                const response  = document.createElement('div');
                 response.className = 'response';
                 response.innerText = `"${cmd}" is not recognized. Type 'help' for options.`;
                 terminal.appendChild(response);

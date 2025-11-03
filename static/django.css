@@ -22,7 +22,6 @@ body {
 }
 .downcon{
     flex-flow: column nowrap;
-
 }
 a{
     font-family: "Apple Braille";
@@ -93,7 +92,6 @@ a{
     justify-content: center;
     align-items: center;
 }
-
 .flip-card-back {
     transform: rotateY(180deg);
     background: linear-gradient(135deg, #8e2de2, #4a00e0);
