@@ -1,52 +1,1679 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>SolaraEngineer – Services</title>
-  <link rel="stylesheet" href="../static/ser.css?v=50" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solara - Senior Backend Engineer</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-dark: #000000;
+      --bg-card: #1c1c1e;
+      --text-primary: #ffffff;
+      --text-secondary: #8e8e93;
+      --accent: #0a84ff;
+      --accent-glow: rgba(10, 132, 255, 0.3);
+      --card-border: #2c2c2e;
+      --success: #10b981;
+      --warning: #f59e0b;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Animated Background */
+    .bg-gradient {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      opacity: 0.15;
+      background: radial-gradient(circle at 20% 50%, var(--accent-glow) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 80%, var(--accent-glow) 0%, transparent 50%);
+      animation: gradientShift 10s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(-50px, 50px) scale(1.1); }
+    }
+
+    /* Floating Particles */
+    .particle {
+      position: fixed;
+      width: 4px;
+      height: 4px;
+      background: var(--accent);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10% { opacity: 0.6; }
+      90% { opacity: 0.6; }
+      100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 30px;
+      right: 50px;
+      z-index: 1000;
+      display: flex;
+      gap: 20px;
+      background: rgba(28, 28, 30, 0.8);
+      backdrop-filter: blur(20px);
+      padding: 15px 30px;
+      border-radius: 50px;
+      border: 1px solid var(--card-border);
+      opacity: 0;
+      transform: translateY(-20px);
+      animation: slideDown 0.6s ease forwards 0.3s;
+    }
+
+    @keyframes slideDown {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    nav a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 13px;
+      transition: color 0.3s ease;
+      position: relative;
+    }
+
+    nav a:hover, nav a.active {
+      color: var(--accent);
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      transition: width 0.3s ease;
+    }
+
+    nav a:hover::after, nav a.active::after {
+      width: 100%;
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-content {
+      max-width: 1000px;
+      text-align: center;
+    }
+
+    .profile-wrapper {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 40px;
+    }
+
+    .profile-ring {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 190px;
+      height: 190px;
+      border: 2px solid var(--accent);
+      border-radius: 50%;
+      opacity: 0.3;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.3; }
+      50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.6; }
+    }
+
+    .profile-img {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      border: 3px solid var(--accent);
+      position: relative;
+      z-index: 2;
+      opacity: 0;
+      transform: scale(0.8);
+      animation: zoomIn 0.8s ease forwards 0.2s;
+    }
+
+    @keyframes zoomIn {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    h1 {
+      font-size: 72px;
+      font-weight: 700;
+      margin-bottom: 15px;
+      letter-spacing: -3px;
+      background: linear-gradient(135deg, #ffffff 0%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.8s ease forwards 0.4s;
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .typing-effect {
+      font-size: 28px;
+      color: var(--text-secondary);
+      margin-bottom: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .typing-cursor {
+      display: inline-block;
+      width: 2px;
+      height: 28px;
+      background: var(--accent);
+      margin-left: 5px;
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+
+    .stats {
+      display: flex;
+      gap: 60px;
+      justify-content: center;
+      margin: 60px 0;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      text-align: center;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 0.8s ease forwards;
+    }
+
+    .stat:nth-child(1) { animation-delay: 0.6s; }
+    .stat:nth-child(2) { animation-delay: 0.7s; }
+    .stat:nth-child(3) { animation-delay: 0.8s; }
+    .stat:nth-child(4) { animation-delay: 0.9s; }
+
+    .stat-number {
+      font-size: 56px;
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .stat:hover .stat-number {
+      transform: scale(1.1);
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+      40% { transform: translateX(-50%) translateY(-10px); }
+      60% { transform: translateX(-50%) translateY(-5px); }
+    }
+
+    .scroll-indicator svg {
+      width: 30px;
+      height: 30px;
+      stroke: var(--accent);
+      fill: none;
+      stroke-width: 2;
+    }
+
+    /* Section */
+    .section {
+      padding: 120px 20px;
+      max-width: 1400px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .section-title {
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 70px;
+      text-align: center;
+      letter-spacing: -2px;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s ease;
+    }
+
+    .section-title.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section-subtitle {
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 18px;
+      margin-bottom: 60px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Projects Grid */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+
+    .project-card {
+      background: var(--bg-card);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      opacity: 0;
+      transform: translateY(50px);
+      position: relative;
+    }
+
+    .project-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .project-card:hover {
+      transform: translateY(-10px);
+      border-color: var(--accent);
+      box-shadow: 0 20px 60px var(--accent-glow);
+    }
+
+    .project-header {
+      padding: 40px 40px 30px 40px;
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.1) 0%, transparent 100%);
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .project-icon {
+      font-size: 48px;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .project-title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .project-type {
+      color: var(--accent);
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .project-body {
+      padding: 30px 40px 40px 40px;
+    }
+
+    .project-desc {
+      color: var(--text-secondary);
+      line-height: 1.8;
+      margin-bottom: 25px;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 25px;
+    }
+
+    .project-tag {
+      padding: 6px 16px;
+      background: rgba(10, 132, 255, 0.1);
+      border: 1px solid rgba(10, 132, 255, 0.3);
+      border-radius: 20px;
+      font-size: 13px;
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .project-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      padding-top: 25px;
+      border-top: 1px solid var(--card-border);
+    }
+
+    .project-stat {
+      text-align: center;
+    }
+
+    .project-stat-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .project-stat-label {
+      font-size: 12px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Infrastructure Section */
+    .infra-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      margin-bottom: 60px;
+    }
+
+    .infra-card {
+      background: var(--bg-card);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 35px;
+      transition: all 0.3s ease;
+      opacity: 0;
+      transform: translateY(40px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .infra-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .infra-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--success));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+
+    .infra-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .infra-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent);
+      box-shadow: 0 15px 40px var(--accent-glow);
+    }
+
+    .infra-icon {
+      font-size: 40px;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .infra-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .infra-desc {
+      color: var(--text-secondary);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* Services Grid */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px;
+    }
+
+    .service-card {
+      background: var(--bg-card);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 45px;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      opacity: 0;
+      transform: translateY(50px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+
+    .service-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .service-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--accent);
+      box-shadow: 0 20px 50px var(--accent-glow);
+    }
+
+    .service-icon {
+      font-size: 52px;
+      margin-bottom: 25px;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .service-card:hover .service-icon {
+      transform: scale(1.15);
+    }
+
+    .service-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+
+    .service-desc {
+      color: var(--text-secondary);
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+
+    .service-features {
+      list-style: none;
+      padding: 0;
+    }
+
+    .service-features li {
+      color: var(--text-secondary);
+      padding: 8px 0;
+      padding-left: 25px;
+      position: relative;
+      font-size: 14px;
+    }
+
+    .service-features li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: bold;
+    }
+
+    /* Skills Grid */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 25px;
+      perspective: 1000px;
+    }
+
+    .skill-card {
+      background: var(--bg-card);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 40px;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      opacity: 0;
+      transform: translateY(50px) rotateX(10deg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .skill-card.visible {
+      opacity: 1;
+      transform: translateY(0) rotateX(0);
+    }
+
+    .skill-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, var(--accent-glow) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .skill-card:hover {
+      transform: translateY(-10px) scale(1.02);
+      border-color: var(--accent);
+      box-shadow: 0 20px 60px var(--accent-glow);
+    }
+
+    .skill-card:hover::before {
+      opacity: 1;
+    }
+
+    .skill-icon {
+      font-size: 48px;
+      margin-bottom: 20px;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .skill-card:hover .skill-icon {
+      transform: scale(1.2) rotate(5deg);
+    }
+
+    .skill-name {
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .skill-desc {
+      color: var(--text-secondary);
+      font-size: 15px;
+      line-height: 1.6;
+      position: relative;
+      z-index: 1;
+    }
+
+    .skill-level {
+      margin-top: 20px;
+      height: 4px;
+      background: var(--card-border);
+      border-radius: 2px;
+      overflow: hidden;
+      position: relative;
+      z-index: 1;
+    }
+
+    .skill-level-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 2px;
+      width: 0;
+      transition: width 1s ease 0.3s;
+    }
+
+    .skill-card.visible .skill-level-fill {
+      width: var(--skill-width);
+    }
+
+    /* Experience Timeline */
+    .experience-list {
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .experience-list::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--card-border);
+      transform: translateX(-50%);
+    }
+
+    .experience-item {
+      background: var(--bg-card);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 40px;
+      margin-bottom: 40px;
+      position: relative;
+      width: calc(50% - 40px);
+      opacity: 0;
+      transition: all 0.6s ease;
+    }
+
+    .experience-item.visible {
+      opacity: 1;
+    }
+
+    .experience-item:nth-child(odd) {
+      margin-left: 0;
+      transform: translateX(-50px);
+    }
+
+    .experience-item:nth-child(even) {
+      margin-left: auto;
+      transform: translateX(50px);
+    }
+
+    .experience-item.visible:nth-child(odd),
+    .experience-item.visible:nth-child(even) {
+      transform: translateX(0);
+    }
+
+    .experience-item::before {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: var(--accent);
+      border: 4px solid var(--bg-dark);
+      border-radius: 50%;
+      top: 50px;
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .experience-item:nth-child(odd)::before {
+      right: -50px;
+    }
+
+    .experience-item:nth-child(even)::before {
+      left: -50px;
+    }
+
+    .experience-item:hover {
+      border-color: var(--accent);
+      box-shadow: 0 10px 40px var(--accent-glow);
+    }
+
+    .experience-title {
+      font-size: 26px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .experience-meta {
+      color: var(--accent);
+      font-size: 14px;
+      margin-bottom: 20px;
+      font-weight: 500;
+    }
+
+    .experience-desc {
+      color: var(--text-secondary);
+      line-height: 1.8;
+    }
+
+    /* CTA */
+    .cta {
+      text-align: center;
+      padding: 120px 20px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .cta-title {
+      font-size: 56px;
+      font-weight: 700;
+      margin-bottom: 30px;
+      letter-spacing: -2px;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s ease;
+    }
+
+    .cta-title.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 50px;
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 18px 45px;
+      background: var(--accent);
+      color: white;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 16px;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    .cta-button.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .cta-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.6s ease;
+    }
+
+    .cta-button:hover::before {
+      left: 100%;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px var(--accent-glow);
+    }
+
+    .cta-button.secondary {
+      background: transparent;
+      border: 2px solid var(--accent);
+      transition-delay: 0.1s;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-secondary);
+      border-top: 1px solid var(--card-border);
+      position: relative;
+      z-index: 2;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 30px;
+      justify-content: center;
+      margin-top: 30px;
+    }
+
+    .social-links a {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 1px solid var(--card-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    .social-links a:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px var(--accent-glow);
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .experience-list::before {
+        left: 20px;
+      }
+
+      .experience-item {
+        width: calc(100% - 60px);
+        margin-left: 60px !important;
+      }
+
+      .experience-item::before {
+        left: -50px !important;
+      }
+
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        top: 20px;
+        right: 20px;
+        left: 20px;
+        gap: 8px;
+        padding: 12px 15px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      nav a {
+        font-size: 11px;
+      }
+
+      h1 {
+        font-size: 48px;
+      }
+
+      .typing-effect {
+        font-size: 20px;
+      }
+
+      .stats {
+        gap: 40px;
+      }
+
+      .stat-number {
+        font-size: 40px;
+      }
+
+      .section-title, .cta-title {
+        font-size: 36px;
+      }
+
+      .skills-grid, .services-grid, .infra-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
-  <div class="bg-image"></div>
 
-   <div class="topnav">
-    <a href="home.html">About me</a>
-    <a href="serv.html">Services I Offer</a>
-    <a href="exp.html">Experience</a>
-  </div>
+  <!-- Animated Background -->
+  <div class="bg-gradient"></div>
 
-  <h1>SolaraEngineer – Web Developer & Backend Specialist</h1>
+  <!-- Floating Particles -->
+  <div id="particles"></div>
 
-  <div class="container">
-    <div class="first">
-      <h2>What I Offer</h2>
-      <p>Custom-built full-stack websites using Django</p>
-      <p>Secure login/register systems with reCAPTCHA, email 2FA, and session control</p>
-      <p>Dynamic frontend integrations via JavaScript (data fetching, user dashboards)</p>
-      <p>API development (REST, JWT-based auth)</p>
-      <p>Database modeling and optimization (PostgreSQL, MySQL)</p>
-      <p>EC2 backend deployments with Nginx & Gunicorn</p>
-      <p>Static hosting via Cloudflare R2 + CDN proxying</p>
-      <p>GitHub project setup and production-level repository management</p>
-      <p>Bug fixing, security patches, and error tracing</p>
+  <!-- Navigation -->
+  <nav>
+    <a href="#hero" class="active">Home</a>
+    <a href="#projects">Projects</a>
+    <a href="#infrastructure">Infrastructure</a>
+    <a href="#services">Services</a>
+    <a href="#skills">Skills</a>
+    <a href="#experience">Experience</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero" id="hero">
+    <div class="hero-content">
+      <div class="profile-wrapper">
+        <div class="profile-ring"></div>
+        <img src="../assets/gurt.jpg" alt="Solara" class="profile-img" />
+      </div>
+      <h1>Solara</h1>
+      <div class="typing-effect">
+        <span id="typed-text"></span>
+        <span class="typing-cursor"></span>
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <span class="stat-number" data-target="10000">0</span>
+          <span class="stat-label">PLN Earned</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number" data-target="3">0</span>
+          <span class="stat-label">Years Experience</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number" data-target="20">0</span>
+          <span class="stat-label">Projects Delivered</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number" data-target="99">0</span>
+          <span class="stat-label">Uptime %</span>
+        </div>
+      </div>
+
+      <div class="scroll-indicator">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 5v14M19 12l-7 7-7-7"/>
+        </svg>
+      </div>
     </div>
+  </section>
 
-    <div class="second">
-      <h2>Projects I’ve Built</h2>
-      <p>Fully functional Django dashboard with user auth, form submissions, and secure routing</p>
-      <p>Custom HTML/CSS/JS sites served dynamically via Django views</p>
-      <p>JS frontends using fetch to load user data on-demand</p>
-      <p>Production deployments on AWS EC2, served via Gunicorn socket</p>
-      <p>Sites optimized with Cloudflare caching and fast routing</p>
-    </div>
+  <!-- Projects Section -->
+  <section class="section" id="projects">
+    <h2 class="section-title">Production Systems</h2>
+    <p class="section-subtitle">Real applications generating revenue and serving users in production with enterprise-grade reliability</p>
+    <div class="projects-grid">
 
-    <div class="third">
-      <h2>Why Work With Me?</h2>
-      <p>Clean, scalable code with real-world deployment in mind</p>
-      <p>Experienced with debugging under pressure and fast delivery</p>
-      <p>Always learning, always improving</p>
-      <p>Can handle full dev cycle: idea → backend → frontend → deploy</p>
-      <p>Contact: <strong>solaraengineer@gmail.com</strong></p>
+      <div class="project-card">
+        <div class="project-header">
+          <span class="project-icon">🛒</span>
+          <h3 class="project-title">E-Commerce Platform</h3>
+          <p class="project-type">Full-Stack Production System</p>
+        </div>
+        <div class="project-body">
+          <p class="project-desc">
+            Enterprise e-commerce platform processing 100+ orders with Stripe payment integration, real-time inventory management, and concurrent transaction handling. Implements race condition prevention with PostgreSQL row-level locking, automated email confirmations, and comprehensive order tracking. Deployed on AWS EC2 with RDS for 99.9% uptime.
+          </p>
+          <div class="project-tags">
+            <span class="project-tag">Django 4.2</span>
+            <span class="project-tag">PostgreSQL</span>
+            <span class="project-tag">Stripe API</span>
+            <span class="project-tag">AWS EC2</span>
+            <span class="project-tag">Docker</span>
+            <span class="project-tag">Nginx</span>
+            <span class="project-tag">Gunicorn</span>
+          </div>
+          <div class="project-stats">
+            <div class="project-stat">
+              <span class="project-stat-value">5K+</span>
+              <span class="project-stat-label">PLN Revenue</span>
+            </div>
+            <div class="project-stat">
+              <span class="project-stat-value">99.9%</span>
+              <span class="project-stat-label">Uptime</span>
+            </div>
+            <div class="project-stat">
+              <span class="project-stat-value">100+</span>
+              <span class="project-stat-label">Orders</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <span class="project-icon">📚</span>
+          <h3 class="project-title">Course Management Platform</h3>
+          <p class="project-type">Educational SaaS</p>
+        </div>
+        <div class="project-body">
+          <p class="project-desc">
+            Full-featured LMS with 3-tier permission system (students, instructors, admins), video content delivery via AWS S3, progress tracking with PostgreSQL, automated certificate generation, and real-time messaging with Django Channels. Implements Redis for caching and session management. Features include course enrollment, content management, and analytics dashboard.
+          </p>
+          <div class="project-tags">
+            <span class="project-tag">Django REST</span>
+            <span class="project-tag">Django Channels</span>
+            <span class="project-tag">WebSockets</span>
+            <span class="project-tag">AWS S3</span>
+            <span class="project-tag">PostgreSQL</span>
+            <span class="project-tag">Redis</span>
+            <span class="project-tag">Celery</span>
+          </div>
+          <div class="project-stats">
+            <div class="project-stat">
+              <span class="project-stat-value">MVP</span>
+              <span class="project-stat-label">Stage</span>
+            </div>
+            <div class="project-stat">
+              <span class="project-stat-value">3-Tier</span>
+              <span class="project-stat-label">User System</span>
+            </div>
+            <div class="project-stat">
+              <span class="project-stat-value">Real-time</span>
+              <span class="project-stat-label">Features</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <span class="project-icon">🔐</span>
+          <h3 class="project-title">Secure Authentication System</h3>
+          <p class="project-type">Security Infrastructure</p>
+        </div>
+        <div class="project-body">
+          <p class="project-desc">
+            Production-grade authentication system with 2FA email verification, rate limiting (5 attempts/minute per IP), CAPTCHA integration, and JWT token management. Implements secure password hashing with bcrypt, session management, and protection against brute force attacks. Features account recovery, email verification workflows, and audit logging for security events.
+          </p>
+          <div class="project-tags">
+            <span class="project-tag">Django Auth</span>
+            <span class="project-tag">2FA</span>
+            <span class="project-tag">JWT</span>
+            <span class="project-tag">reCAPTCHA</span>
+            <span class="project-tag">Rate Limiting</span>
+            <span class="project-tag">Redis</span>
+          </div>
+          <div class="project-stats">
+            <div class="project-stat">
+              <span class="project-stat-value">2FA</span>
+              <span class="project-stat-label">Security</span>
+            </div>
+            <div class="project-stat">
+              <span class="project-stat-value">5/min</span>
+              <span class="project-stat-label">Rate Limit</span>
+            </div>
+            <div class="project-stat">
+              <span class="project-stat-value">Protected</span>
+              <span class="project-stat-label">Endpoints</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <span class="project-icon">💬</span>
+          <h3 class="project-title">Real-Time Messaging System</h3>
+          <p class="project-type">WebSocket Infrastructure</p>
+        </div>
+        <div class="project-body">
+          <p class="project-desc">
+            Scalable real-time messaging system using Django Channels and WebSockets with Redis as message broker. Supports private messaging, group chats, typing indicators, read receipts, and message history with PostgreSQL. Handles concurrent connections efficiently with connection pooling and automatic reconnection logic. Implements message encryption and user presence detection.
+          </p>
+          <div class="project-tags">
+            <span class="project-tag">Django Channels</span>
+            <span class="project-tag">WebSockets</span>
+            <span class="project-tag">Redis PubSub</span>
+            <span class="project-tag">PostgreSQL</span>
+            <span class="project-tag">Async</span>
+          </div>
+          <div class="project-stats">
+            <div class="project-stat">
+              <span class="project-stat-value">Real-time</span>
+              <span class="project-stat-label">Messaging</span>
+            </div>
+            <div class="project-stat">
+              <span class="project-stat-value">Scalable</span>
+              <span class="project-stat-label">Architecture</span>
+            </div>
+            <div class="project-stat">
+              <span class="project-stat-value">Encrypted</span>
+              <span class="project-stat-label">Messages</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
-  </div>
+  </section>
+
+  <!-- Infrastructure Section -->
+  <section class="section" id="infrastructure">
+    <h2 class="section-title">Cloud & DevOps Infrastructure</h2>
+    <p class="section-subtitle">Production-grade infrastructure management and deployment pipelines for scalable, reliable systems</p>
+    <div class="infra-grid">
+
+      <div class="infra-card">
+        <span class="infra-icon">☁️</span>
+        <h3 class="infra-title">AWS EC2 Deployment</h3>
+        <p class="infra-desc">Production server management with Ubuntu 24, automated security updates, SSH key authentication, and firewall configuration. Implements load balancing, auto-scaling groups, and CloudWatch monitoring.</p>
+      </div>
+
+      <div class="infra-card">
+        <span class="infra-icon">🗄️</span>
+        <h3 class="infra-title">RDS PostgreSQL</h3>
+        <p class="infra-desc">Managed database service with automated backups, point-in-time recovery, read replicas for scaling, and connection pooling. Configured for high availability with Multi-AZ deployment.</p>
+      </div>
+
+      <div class="infra-card">
+        <span class="infra-icon">📦</span>
+        <h3 class="infra-title">AWS S3 Storage</h3>
+        <p class="infra-desc">Object storage for static assets, media files, and backups. Configured with CloudFront CDN for global content delivery, lifecycle policies, and versioning for disaster recovery.</p>
+      </div>
+
+      <div class="infra-card">
+        <span class="infra-icon">🐳</span>
+        <h3 class="infra-title">Docker Containers</h3>
+        <p class="infra-desc">Containerized applications with Docker Compose for local development and production deployment. Implements multi-stage builds, volume management, and environment-specific configurations.</p>
+      </div>
+
+      <div class="infra-card">
+        <span class="infra-icon">🔄</span>
+        <h3 class="infra-title">CI/CD Pipeline</h3>
+        <p class="infra-desc">Automated deployment workflows with GitHub Actions. Includes automated testing, security scanning, database migrations, and zero-downtime deployments with rollback capabilities.</p>
+      </div>
+
+      <div class="infra-card">
+        <span class="infra-icon">🌐</span>
+        <h3 class="infra-title">Nginx + Gunicorn</h3>
+        <p class="infra-desc">High-performance web server setup with Nginx as reverse proxy, Gunicorn for WSGI, SSL/TLS certificates, and HTTP/2 support. Configured for optimal performance with worker processes.</p>
+      </div>
+
+      <div class="infra-card">
+        <span class="infra-icon">⚡</span>
+        <h3 class="infra-title">Redis Caching</h3>
+        <p class="infra-desc">In-memory data store for session management, caching frequently accessed data, rate limiting, and as message broker for Celery tasks. Implements cache invalidation strategies.</p>
+      </div>
+
+      <div class="infra-card">
+        <span class="infra-icon">📊</span>
+        <h3 class="infra-title">Monitoring & Logging</h3>
+        <p class="infra-desc">CloudWatch for metrics and alarms, centralized logging with log aggregation, error tracking, and performance monitoring. Implements alerting for critical system events.</p>
+      </div>
+
+      <div class="infra-card">
+        <span class="infra-icon">🔒</span>
+        <h3 class="infra-title">Security Hardening</h3>
+        <p class="infra-desc">Firewall configuration with UFW, fail2ban for intrusion prevention, SSL/TLS encryption, security headers, and regular security audits. Implements principle of least privilege.</p>
+      </div>
+
+      <div class="infra-card">
+        <span class="infra-icon">💾</span>
+        <h3 class="infra-title">Backup & Recovery</h3>
+        <p class="infra-desc">Automated daily backups to S3, database snapshots, disaster recovery procedures, and tested restore processes. Maintains 30-day backup retention with encryption.</p>
+      </div>
+
+      <div class="infra-card">
+        <span class="infra-icon">🔧</span>
+        <h3 class="infra-title">Database Optimization</h3>
+        <p class="infra-desc">Query optimization with indexing strategies, connection pooling, slow query analysis, and performance tuning. Implements database migrations with zero downtime.</p>
+      </div>
+
+      <div class="infra-card">
+        <span class="infra-icon">🌍</span>
+        <h3 class="infra-title">DNS & Domain Management</h3>
+        <p class="infra-desc">Route 53 for DNS management, custom domain configuration, health checks, and failover routing. Implements DNSSEC for additional security.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section class="section" id="services">
+    <h2 class="section-title">Professional Services</h2>
+    <p class="section-subtitle">Comprehensive backend engineering and infrastructure solutions for startups and established businesses</p>
+    <div class="services-grid">
+
+      <div class="service-card">
+        <span class="service-icon">⚙️</span>
+        <h3 class="service-title">Backend Development</h3>
+        <p class="service-desc">
+          Building robust, scalable backend systems with Django and Python. From API design to database optimization, I handle the entire backend stack with production-grade quality.
+        </p>
+        <ul class="service-features">
+          <li>REST API development with Django REST Framework</li>
+          <li>PostgreSQL database design and optimization</li>
+          <li>Complex query optimization and indexing</li>
+          <li>Authentication & authorization systems with JWT</li>
+          <li>Payment gateway integration (Stripe, PayPal)</li>
+          <li>Real-time features with WebSockets and Django Channels</li>
+          <li>Asynchronous task processing with Celery</li>
+          <li>API documentation and versioning</li>
+        </ul>
+      </div>
+
+      <div class="service-card">
+        <span class="service-icon">☁️</span>
+        <h3 class="service-title">Cloud Infrastructure & DevOps</h3>
+        <p class="service-desc">
+          Complete AWS infrastructure setup and management with containerization, automated deployments, and monitoring for production-ready systems.
+        </p>
+        <ul class="service-features">
+          <li>AWS EC2, RDS, S3 setup and management</li>
+          <li>Docker containerization and orchestration</li>
+          <li>CI/CD pipeline implementation with GitHub Actions</li>
+          <li>Linux server administration (Ubuntu, Debian)</li>
+          <li>Nginx and Gunicorn configuration</li>
+          <li>Database migration and backup strategies</li>
+          <li>CloudWatch monitoring and alerting</li>
+          <li>Performance optimization and scaling</li>
+        </ul>
+      </div>
+
+      <div class="service-card">
+        <span class="service-icon">🔒</span>
+        <h3 class="service-title">Security & Authentication</h3>
+        <p class="service-desc">
+          Implementing enterprise-grade security measures including 2FA, rate limiting, and protection against common vulnerabilities.
+        </p>
+        <ul class="service-features">
+          <li>2FA email verification systems</li>
+          <li>JWT token-based authentication</li>
+          <li>Rate limiting and DDoS protection</li>
+          <li>reCAPTCHA integration</li>
+          <li>SQL injection and XSS prevention</li>
+          <li>Secure password hashing and storage</li>
+          <li>Session management and security</li>
+          <li>Security audit and penetration testing</li>
+        </ul>
+      </div>
+
+      <div class="service-card">
+        <span class="service-icon">📊</span>
+        <h3 class="service-title">Database Architecture</h3>
+        <p class="service-desc">
+          Designing and optimizing PostgreSQL databases for high-performance applications with proper indexing, caching, and query optimization.
+        </p>
+        <ul class="service-features">
+          <li>Database schema design and normalization</li>
+          <li>Complex query optimization</li>
+          <li>Indexing strategies for performance</li>
+          <li>Connection pooling and management</li>
+          <li>Race condition handling with row-level locking</li>
+          <li>Database replication and sharding</li>
+          <li>Backup and disaster recovery planning</li>
+          <li>Data migration with zero downtime</li>
+        </ul>
+      </div>
+
+      <div class="service-card">
+        <span class="service-icon">🎯</span>
+        <h3 class="service-title">Full-Stack Integration</h3>
+        <p class="service-desc">
+          End-to-end application development from backend to frontend with seamless integration and modern UI implementation.
+        </p>
+        <ul class="service-features">
+          <li>Complete project architecture planning</li>
+          <li>Frontend integration with JavaScript/React</li>
+          <li>Responsive UI with HTML5 and CSS3</li>
+          <li>Email notification systems</li>
+          <li>Admin dashboards and analytics</li>
+          <li>Third-party API integrations</li>
+          <li>Payment processing implementation</li>
+          <li>Real-time features and WebSockets</li>
+        </ul>
+      </div>
+
+      <div class="service-card">
+        <span class="service-icon">🔄</span>
+        <h3 class="service-title">Technical Consulting</h3>
+        <p class="service-desc">
+          Strategic technical guidance including architecture review, technology selection, and performance optimization strategies.
+        </p>
+        <ul class="service-features">
+          <li>Architecture design and review</li>
+          <li>Technology stack recommendations</li>
+          <li>Code review and optimization</li>
+          <li>Scalability planning and implementation</li>
+          <li>Security audit and recommendations</li>
+          <li>Performance bottleneck identification</li>
+          <li>Team collaboration and mentoring</li>
+          <li>Technical documentation</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Skills Section -->
+  <section class="section" id="skills">
+    <h2 class="section-title">Technical Expertise</h2>
+    <p class="section-subtitle">Battle-tested skills from real production systems serving users and generating revenue</p>
+    <div class="skills-grid">
+
+      <div class="skill-card" style="--skill-width: 95%">
+        <span class="skill-icon">🐍</span>
+        <h3 class="skill-name">Django & Python</h3>
+        <p class="skill-desc">Expert-level Django development with REST Framework, Channels, ORM optimization, custom middleware, signal handling, and scalable application architecture</p>
+        <div class="skill-level"><div class="skill-level-fill"></div></div>
+      </div>
+
+      <div class="skill-card" style="--skill-width: 92%">
+        <span class="skill-icon">💾</span>
+        <h3 class="skill-name">PostgreSQL & Databases</h3>
+        <p class="skill-desc">Advanced database design, complex queries, indexing strategies, transaction management, connection pooling, and performance optimization for high-load systems</p>
+        <div class="skill-level"><div class="skill-level-fill"></div></div>
+      </div>
+
+      <div class="skill-card" style="--skill-width: 90%">
+        <span class="skill-icon">☁️</span>
+        <h3 class="skill-name">AWS Cloud Services</h3>
+        <p class="skill-desc">EC2, RDS, S3, CloudWatch, Route 53 management, auto-scaling, load balancing, and production-grade infrastructure deployment</p>
+        <div class="skill-level"><div class="skill-level-fill"></div></div>
+      </div>
+
+      <div class="skill-card" style="--skill-width: 88%">
+        <span class="skill-icon">🐳</span>
+        <h3 class="skill-name">Docker & Containerization</h3>
+        <p class="skill-desc">Docker Compose, multi-stage builds, volume management, container orchestration, and production deployment strategies</p>
+        <div class="skill-level"><div class="skill-level-fill"></div></div>
+      </div>
+
+      <div class="skill-card" style="--skill-width: 93%">
+        <span class="skill-icon">⚡</span>
+        <h3 class="skill-name">REST API Development</h3>
+        <p class="skill-desc">Production-ready APIs with authentication, rate limiting, versioning, proper error handling, API documentation, and testing</p>
+        <div class="skill-level"><div class="skill-level-fill"></div></div>
+      </div>
+
+      <div class="skill-card" style="--skill-width: 87%">
+        <span class="skill-icon">🔄</span>
+        <h3 class="skill-name">Redis & Caching</h3>
+        <p class="skill-desc">Session management, data caching, rate limiting, message brokering for Celery, and cache invalidation strategies</p>
+        <div class="skill-level"><div class="skill-level-fill"></div></div>
+      </div>
+
+      <div class="skill-card" style="--skill-width: 91%">
+        <span class="skill-icon">🔒</span>
+        <h3 class="skill-name">Security & Authentication</h3>
+        <p class="skill-desc">2FA implementation, JWT tokens, OAuth, rate limiting, SQL injection prevention, XSS protection, CSRF tokens, and secure payment processing</p>
+        <div class="skill-level"><div class="skill-level-fill"></div></div>
+      </div>
+
+      <div class="skill-card" style="--skill-width: 85%">
+        <span class="skill-icon">🌐</span>
+        <h3 class="skill-name">Linux & DevOps</h3>
+        <p class="skill-desc">Ubuntu/Debian administration, Nginx configuration, systemd services, bash scripting, SSH hardening, and server security</p>
+        <div class="skill-level"><div class="skill-level-fill"></div></div>
+      </div>
+
+      <div class="skill-card" style="--skill-width: 86%">
+        <span class="skill-icon">💬</span>
+        <h3 class="skill-name">WebSockets & Real-time</h3>
+        <p class="skill-desc">Django Channels, WebSocket connections, Redis pub/sub, async programming, and real-time messaging systems</p>
+        <div class="skill-level"><div class="skill-level-fill"></div></div>
+      </div>
+
+      <div class="skill-card" style="--skill-width: 89%">
+        <h3 class="skill-name">Git & Version Control</h3>
+        <p class="skill-desc">Advanced Git workflows, branching strategies, code review, pull requests, conflict resolution, and CI/CD integration</p>
+        <div class="skill-level"><div class="skill-level-fill"></div></div>
+      </div>
+
+      <div class="skill-card" style="--skill-width: 84%">
+        <span class="skill-icon">🎨</span>
+        <h3 class="skill-name">Frontend Integration</h3>
+        <p class="skill-desc">Modern JavaScript ES6+, HTML5, CSS3, responsive design, AJAX, fetch API, and seamless backend-frontend integration</p>
+        <div class="skill-level"><div class="skill-level-fill"></div></div>
+      </div>
+
+      <div class="skill-card" style="--skill-width: 88%">
+        <span class="skill-icon">💳</span>
+        <h3 class="skill-name">Payment Processing</h3>
+        <p class="skill-desc">Stripe API integration, webhook handling, subscription management, refunds, and secure payment flows with PCI compliance</p>
+        <div class="skill-level"><div class="skill-level-fill"></div></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Experience Section -->
+  <section class="section" id="experience">
+    <h2 class="section-title">Professional Journey</h2>
+    <p class="section-subtitle">From self-taught developer to freelance engineer managing production systems</p>
+    <div class="experience-list">
+
+      <div class="experience-item">
+        <h3 class="experience-title">Freelance Backend Engineer</h3>
+        <p class="experience-meta">2022 - Present | Remote, International Clients</p>
+        <p class="experience-desc">
+          Built and deployed multiple production web applications generating 10,000+ PLN in revenue. Specialized in e-commerce platforms with Stripe integration, course management systems with complex user hierarchies, investment marketplaces with real-time features, and secure authentication systems with 2FA. Managed complete AWS infrastructure including EC2, RDS, S3, with Docker containerization. Maintained 99.9% uptime across all projects while handling database optimization, security implementations, and CI/CD pipelines. Collaborated directly with international clients on technical architecture, feature planning, and deployment strategies.
+        </p>
+      </div>
+
+      <div class="experience-item">
+        <h3 class="experience-title">Lead Backend Developer</h3>
+        <p class="experience-meta">Current Project | Marketplace Platform</p>
+        <p class="experience-desc">
+          Leading technical architecture for large-scale marketplace platform designed for 10,000+ concurrent users. Implementing advanced features including real-time WebSocket messaging with Django Channels and Redis, secure payment processing with Stripe, race condition handling using PostgreSQL row-level locking for concurrent transactions, and database query optimization. Managing complete AWS infrastructure with automated deployments, monitoring, and scaling. Established CI/CD pipelines, implemented comprehensive security measures including rate limiting and 2FA, and architected microservices communication patterns. Conducting code reviews and making critical architectural decisions.
+        </p>
+      </div>
+
+      <div class="experience-item">
+        <h3 class="experience-title">Private Programming Academy</h3>
+        <p class="experience-meta">2023 - Present | Advanced Curriculum</p>
+        <p class="experience-desc">
+          Accepted into highly competitive private programming school based on demonstrated technical skills through portfolio projects. Deepening expertise in advanced algorithms, data structures, design patterns, and software engineering principles. Studying computer science fundamentals including complexity analysis, graph algorithms, dynamic programming, and system design. Simultaneously managing freelance client projects and production applications while pursuing formal education. Applying academic concepts to real-world production systems and contributing to open-source projects.
+        </p>
+      </div>
+
+      <div class="experience-item">
+        <h3 class="experience-title">DevOps & Infrastructure</h3>
+        <p class="experience-meta">2022 - Present | Cloud Architecture</p>
+        <p class="experience-desc">
+          Designed and implemented production-grade cloud infrastructure on AWS for multiple client projects. Configured EC2 instances with security hardening, set up RDS databases with automated backups and read replicas, managed S3 buckets with lifecycle policies and CDN integration. Implemented Docker containerization for consistent deployment across environments. Established monitoring with CloudWatch, log aggregation, and alerting systems. Created automated backup strategies and disaster recovery procedures. Optimized infrastructure costs while maintaining high availability and performance standards.
+        </p>
+      </div>
+
+      <div class="experience-item">
+        <h3 class="experience-title">Security Engineering Focus</h3>
+        <p class="experience-meta">2023 - Present | Application Security</p>
+        <p class="experience-desc">
+          Specialized in implementing enterprise-grade security measures for production applications. Built authentication systems with 2FA email verification, JWT token management, and session security. Implemented rate limiting (5 attempts/minute per IP), CAPTCHA integration, and protection against brute force attacks. Conducted security audits, vulnerability assessments, and penetration testing. Established secure coding practices, implemented SQL injection and XSS prevention, configured SSL/TLS certificates, and ensured PCI compliance for payment processing. Created security documentation and incident response procedures.
+        </p>
+      </div>
+
+      <div class="experience-item">
+        <h3 class="experience-title">Self-Taught Developer Journey</h3>
+        <p class="experience-meta">2021 - 2022 | Foundation Building</p>
+        <p class="experience-desc">
+          Started programming journey through self-study, focusing on Python fundamentals, Django framework, and web development principles. Built various projects including banking scripts, web scrapers, automation tools, and small web applications. Learned version control with Git, database management with PostgreSQL, and deployment fundamentals. Developed strong problem-solving skills through LeetCode challenges and personal projects. Created portfolio of work that demonstrated technical competency and led to acceptance into competitive programming school. Established foundation in software engineering best practices, clean code principles, and debugging methodologies.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta" id="contact">
+    <h2 class="cta-title">Let's Build Something Extraordinary</h2>
+    <p class="subtitle" style="color: var(--text-secondary); font-size: 20px; margin-bottom: 20px;">Available for freelance projects, technical consulting, and long-term collaborations. Let's turn your vision into production-grade reality.</p>
+    <div class="cta-buttons">
+      <a href="mailto:solaradeveloper@gmail.com" class="cta-button">Get In Touch</a>
+      <a href="https://github.com/solaraengineer" class="cta-button secondary">View GitHub</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2024 Solara. Engineering production systems at 14 years old.</p>
+    <div class="social-links">
+      <a href="https://github.com/solaraengineer" title="GitHub">💻</a>
+      <a href="https://instagram.com/voidedtesla" title="Instagram">📸</a>
+      <a href="https://discord.gg/solaradevs" title="Discord">💬</a>
+    </div>
+  </footer>
+
+  <script>
+    // Typing Effect
+    const texts = [
+      'Backend Engineer',
+      'Cloud Architect',
+      'DevOps Specialist',
+      'Security Engineer',
+      'Database Expert',
+      'API Architect'
+    ];
+    let textIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    const typedTextElement = document.getElementById('typed-text');
+
+    function type() {
+      const currentText = texts[textIndex];
+
+      if (isDeleting) {
+        typedTextElement.textContent = currentText.substring(0, charIndex - 1);
+        charIndex--;
+      } else {
+        typedTextElement.textContent = currentText.substring(0, charIndex + 1);
+        charIndex++;
+      }
+
+      if (!isDeleting && charIndex === currentText.length) {
+        isDeleting = true;
+        setTimeout(type, 2000);
+      } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        textIndex = (textIndex + 1) % texts.length;
+        setTimeout(type, 500);
+      } else {
+        setTimeout(type, isDeleting ? 50 : 100);
+      }
+    }
+
+    setTimeout(type, 1000);
+
+    // Counter Animation
+    function animateCounter(element) {
+      const target = parseInt(element.getAttribute('data-target'));
+      const duration = 2000;
+      const step = target / (duration / 16);
+      let current = 0;
+
+      const counter = setInterval(() => {
+        current += step;
+        if (current >= target) {
+          element.textContent = target.toLocaleString() + (target >= 10 ? '+' : target === 99 ? '.9%' : '+');
+          clearInterval(counter);
+        } else {
+          element.textContent = Math.floor(current).toLocaleString();
+        }
+      }, 16);
+    }
+
+    // Intersection Observer
+    const observerOptions = {
+      threshold: 0.2,
+      rootMargin: '0px 0px -100px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+
+          if (entry.target.classList.contains('stat')) {
+            const numberElement = entry.target.querySelector('.stat-number');
+            if (numberElement && !numberElement.classList.contains('animated')) {
+              numberElement.classList.add('animated');
+              animateCounter(numberElement);
+            }
+          }
+        }
+      });
+    }, observerOptions);
+
+    // Observe all animated elements
+    document.querySelectorAll('.section-title, .skill-card, .service-card, .infra-card, .experience-item, .stat, .cta-title, .cta-button, .project-card').forEach(el => {
+      observer.observe(el);
+    });
+
+    // Floating Particles
+    function createParticle() {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      particle.style.left = Math.random() * window.innerWidth + 'px';
+      particle.style.animationDelay = Math.random() * 6 + 's';
+      particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+      document.getElementById('particles').appendChild(particle);
+
+      setTimeout(() => particle.remove(), 10000);
+    }
+
+    setInterval(createParticle, 800);
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          window.scrollTo({
+            top: target.offsetTop - 80,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+
+    // Active nav on scroll
+    window.addEventListener('scroll', () => {
+      const sections = document.querySelectorAll('section[id]');
+      const scrollY = window.pageYOffset;
+
+      sections.forEach(section => {
+        const sectionHeight = section.offsetHeight;
+        const sectionTop = section.offsetTop - 100;
+        const sectionId = section.getAttribute('id');
+
+        if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+          document.querySelectorAll('nav a').forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${sectionId}`) {
+              link.classList.add('active');
+            }
+          });
+        }
+      });
+
+      // Parallax
+      const parallaxElements = document.querySelectorAll('.hero-content');
+      parallaxElements.forEach(el => {
+        el.style.transform = `translateY(${scrollY * 0.5}px)`;
+      });
+    });
+  </script>
+
 </body>
 </html>

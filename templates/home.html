@@ -2,40 +2,1140 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>AboutMe</title>
-  <link rel="stylesheet" href="../static/css.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solara - Software Engineer</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-dark: #000000;
+      --bg-card: #1c1c1e;
+      --text-primary: #ffffff;
+      --text-secondary: #8e8e93;
+      --accent: #0a84ff;
+      --accent-glow: rgba(10, 132, 255, 0.3);
+      --card-border: #2c2c2e;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Animated Background */
+    .bg-gradient {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      opacity: 0.15;
+      background: radial-gradient(circle at 20% 50%, var(--accent-glow) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 80%, var(--accent-glow) 0%, transparent 50%);
+      animation: gradientShift 10s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(-50px, 50px) scale(1.1); }
+    }
+
+    /* Floating Particles */
+    .particle {
+      position: fixed;
+      width: 4px;
+      height: 4px;
+      background: var(--accent);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10% { opacity: 0.6; }
+      90% { opacity: 0.6; }
+      100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 30px;
+      right: 50px;
+      z-index: 1000;
+      display: flex;
+      gap: 30px;
+      background: rgba(28, 28, 30, 0.8);
+      backdrop-filter: blur(20px);
+      padding: 15px 30px;
+      border-radius: 50px;
+      border: 1px solid var(--card-border);
+      opacity: 0;
+      transform: translateY(-20px);
+      animation: slideDown 0.6s ease forwards 0.3s;
+    }
+
+    @keyframes slideDown {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    nav a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 14px;
+      transition: color 0.3s ease;
+      position: relative;
+    }
+
+    nav a:hover {
+      color: var(--accent);
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      transition: width 0.3s ease;
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-content {
+      max-width: 1000px;
+      text-align: center;
+    }
+
+    .profile-wrapper {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 40px;
+    }
+
+    .profile-ring {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 190px;
+      height: 190px;
+      border: 2px solid var(--accent);
+      border-radius: 50%;
+      opacity: 0.3;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.3; }
+      50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.6; }
+    }
+
+    .profile-img {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      border: 3px solid var(--accent);
+      position: relative;
+      z-index: 2;
+      opacity: 0;
+      transform: scale(0.8);
+      animation: zoomIn 0.8s ease forwards 0.2s;
+    }
+
+    @keyframes zoomIn {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    h1 {
+      font-size: 72px;
+      font-weight: 700;
+      margin-bottom: 15px;
+      letter-spacing: -3px;
+      background: linear-gradient(135deg, #ffffff 0%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.8s ease forwards 0.4s;
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .typing-effect {
+      font-size: 28px;
+      color: var(--text-secondary);
+      margin-bottom: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .typing-cursor {
+      display: inline-block;
+      width: 2px;
+      height: 28px;
+      background: var(--accent);
+      margin-left: 5px;
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+
+    .stats {
+      display: flex;
+      gap: 80px;
+      justify-content: center;
+      margin: 60px 0;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      text-align: center;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 0.8s ease forwards;
+    }
+
+    .stat:nth-child(1) { animation-delay: 0.6s; }
+    .stat:nth-child(2) { animation-delay: 0.7s; }
+    .stat:nth-child(3) { animation-delay: 0.8s; }
+
+    .stat-number {
+      font-size: 56px;
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .stat:hover .stat-number {
+      transform: scale(1.1);
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+      40% { transform: translateX(-50%) translateY(-10px); }
+      60% { transform: translateX(-50%) translateY(-5px); }
+    }
+
+    .scroll-indicator svg {
+      width: 30px;
+      height: 30px;
+      stroke: var(--accent);
+      fill: none;
+      stroke-width: 2;
+    }
+
+    /* Section */
+    .section {
+      padding: 120px 20px;
+      max-width: 1400px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .section-title {
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 70px;
+      text-align: center;
+      letter-spacing: -2px;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s ease;
+    }
+
+    .section-title.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Projects Grid */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+
+    .project-card {
+      background: var(--bg-card);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      opacity: 0;
+      transform: translateY(50px);
+      position: relative;
+    }
+
+    .project-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .project-card:hover {
+      transform: translateY(-10px);
+      border-color: var(--accent);
+      box-shadow: 0 20px 60px var(--accent-glow);
+    }
+
+    .project-header {
+      padding: 40px 40px 30px 40px;
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.1) 0%, transparent 100%);
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .project-icon {
+      font-size: 48px;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .project-title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .project-type {
+      color: var(--accent);
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .project-body {
+      padding: 30px 40px 40px 40px;
+    }
+
+    .project-desc {
+      color: var(--text-secondary);
+      line-height: 1.8;
+      margin-bottom: 25px;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 25px;
+    }
+
+    .project-tag {
+      padding: 6px 16px;
+      background: rgba(10, 132, 255, 0.1);
+      border: 1px solid rgba(10, 132, 255, 0.3);
+      border-radius: 20px;
+      font-size: 13px;
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .project-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      padding-top: 25px;
+      border-top: 1px solid var(--card-border);
+    }
+
+    .project-stat {
+      text-align: center;
+    }
+
+    .project-stat-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .project-stat-label {
+      font-size: 12px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Skills Grid with Stagger */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 25px;
+      perspective: 1000px;
+    }
+
+    .skill-card {
+      background: var(--bg-card);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 40px;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      opacity: 0;
+      transform: translateY(50px) rotateX(10deg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .skill-card.visible {
+      opacity: 1;
+      transform: translateY(0) rotateX(0);
+    }
+
+    .skill-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, var(--accent-glow) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .skill-card:hover {
+      transform: translateY(-10px) scale(1.02);
+      border-color: var(--accent);
+      box-shadow: 0 20px 60px var(--accent-glow);
+    }
+
+    .skill-card:hover::before {
+      opacity: 1;
+    }
+
+    .skill-icon {
+      font-size: 48px;
+      margin-bottom: 20px;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .skill-card:hover .skill-icon {
+      transform: scale(1.2) rotate(5deg);
+    }
+
+    .skill-name {
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .skill-desc {
+      color: var(--text-secondary);
+      font-size: 15px;
+      line-height: 1.6;
+      position: relative;
+      z-index: 1;
+    }
+
+    .skill-level {
+      margin-top: 20px;
+      height: 4px;
+      background: var(--card-border);
+      border-radius: 2px;
+      overflow: hidden;
+      position: relative;
+      z-index: 1;
+    }
+
+    .skill-level-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 2px;
+      width: 0;
+      transition: width 1s ease 0.3s;
+    }
+
+    .skill-card.visible .skill-level-fill {
+      width: var(--skill-width);
+    }
+
+    /* Experience Timeline */
+    .experience-list {
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .experience-list::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--card-border);
+      transform: translateX(-50%);
+    }
+
+    .experience-item {
+      background: var(--bg-card);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 40px;
+      margin-bottom: 40px;
+      position: relative;
+      width: calc(50% - 40px);
+      opacity: 0;
+      transition: all 0.6s ease;
+    }
+
+    .experience-item.visible {
+      opacity: 1;
+    }
+
+    .experience-item:nth-child(odd) {
+      margin-left: 0;
+      transform: translateX(-50px);
+    }
+
+    .experience-item:nth-child(even) {
+      margin-left: auto;
+      transform: translateX(50px);
+    }
+
+    .experience-item.visible:nth-child(odd),
+    .experience-item.visible:nth-child(even) {
+      transform: translateX(0);
+    }
+
+    .experience-item::before {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: var(--accent);
+      border: 4px solid var(--bg-dark);
+      border-radius: 50%;
+      top: 50px;
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .experience-item:nth-child(odd)::before {
+      right: -50px;
+    }
+
+    .experience-item:nth-child(even)::before {
+      left: -50px;
+    }
+
+    .experience-item:hover {
+      border-color: var(--accent);
+      box-shadow: 0 10px 40px var(--accent-glow);
+    }
+
+    .experience-title {
+      font-size: 26px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .experience-meta {
+      color: var(--accent);
+      font-size: 14px;
+      margin-bottom: 20px;
+      font-weight: 500;
+    }
+
+    .experience-desc {
+      color: var(--text-secondary);
+      line-height: 1.8;
+    }
+
+    /* CTA Parallax */
+    .cta {
+      text-align: center;
+      padding: 120px 20px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .cta-title {
+      font-size: 56px;
+      font-weight: 700;
+      margin-bottom: 30px;
+      letter-spacing: -2px;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s ease;
+    }
+
+    .cta-title.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 50px;
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 18px 45px;
+      background: var(--accent);
+      color: white;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 16px;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    .cta-button.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .cta-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.6s ease;
+    }
+
+    .cta-button:hover::before {
+      left: 100%;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px var(--accent-glow);
+    }
+
+    .cta-button.secondary {
+      background: transparent;
+      border: 2px solid var(--accent);
+      transition-delay: 0.1s;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-secondary);
+      border-top: 1px solid var(--card-border);
+      position: relative;
+      z-index: 2;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 30px;
+      justify-content: center;
+      margin-top: 30px;
+    }
+
+    .social-links a {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 1px solid var(--card-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    .social-links a:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px var(--accent-glow);
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .experience-list::before {
+        left: 20px;
+      }
+
+      .experience-item {
+        width: calc(100% - 60px);
+        margin-left: 60px !important;
+      }
+
+      .experience-item::before {
+        left: -50px !important;
+      }
+
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        top: 20px;
+        right: 20px;
+        gap: 15px;
+        padding: 12px 20px;
+      }
+
+      h1 {
+        font-size: 48px;
+      }
+
+      .typing-effect {
+        font-size: 20px;
+      }
+
+      .stats {
+        gap: 40px;
+      }
+
+      .stat-number {
+        font-size: 40px;
+      }
+
+      .section-title, .cta-title {
+        font-size: 36px;
+      }
+
+      .skills-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
-<div class="writ">
-    <span>Written by Solara.</span>
-  <div class="bg-image"></div>
-  <div class="main">
-    <div class="box">
-      <div class="image">
-            <a id="clock"></a>
-        <img src="../assets/Lfx3DRTbYeG6.gif" mein logo" />
+
+  <!-- Animated Background -->
+  <div class="bg-gradient"></div>
+
+  <!-- Floating Particles -->
+  <div id="particles"></div>
+
+  <!-- Navigation -->
+  <nav>
+    <a href="#hero">Home</a>
+    <a href="#projects">Projects</a>
+    <a href="#skills">Skills</a>
+    <a href="#experience">Experience</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero" id="hero">
+    <div class="hero-content">
+      <div class="profile-wrapper">
+        <div class="profile-ring"></div>
+        <img src="../assets/gurt.jpg" alt="Solara" class="profile-img" />
       </div>
-      <div class="Aboutme">
-        <span>Django</span>
-        <span>DevOps</span>
-        <span>Software Engineer</span>
-        <span>Rest API</span>
-        <p id="dev-text">Professional backend Django Developer, Fullstack Developer</p>
-          <button id="change_text">Check random fact about me!!</button>
-          <button onclick="window.location.href='index.html'">Start Intro</button>
-        <a href="https://github.com/solaraengineer">
-          <img class="icon" alt="github" src="../assets/github.png" />
-        </a>
+      <h1>Solara</h1>
+      <div class="typing-effect">
+        <span id="typed-text"></span>
+        <span class="typing-cursor"></span>
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <span class="stat-number" data-target="10000">0</span>
+          <span class="stat-label">PLN Earned</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number" data-target="3">0</span>
+          <span class="stat-label">Years Coding</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number" data-target="15">0</span>
+          <span class="stat-label">Projects Shipped</span>
+        </div>
+      </div>
+
+      <div class="scroll-indicator">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 5v14M19 12l-7 7-7-7"/>
+        </svg>
       </div>
     </div>
-  </div>
+  </section>
 
-  <div class="topnav">
-    <a href="home.html">About me</a>
-    <a href="serv.html">Services I Offer</a>
-    <a href="exp.html">Experience</a>
-    <a href="More.html">More</a>
-  </div>
-<script src="../static/js/SYBAU.js"></script>
+  <!-- Projects Section -->
+  <section class="section" id="projects">
+    <h2 class="section-title">Featured Projects</h2>
+    <div class="projects-grid">
+
+      <!-- E-commerce Platform -->
+      <div class="project-card">
+        <div class="project-header">
+          <span class="project-icon">🛒</span>
+          <h3 class="project-title">E-Commerce Platform</h3>
+          <p class="project-type">Full-Stack Application</p>
+        </div>
+        <div class="project-body">
+          <p class="project-desc">
+            Production-ready e-commerce platform with full payment integration via Stripe, real-time inventory management, and secure checkout flow. Handles concurrent transactions with race condition prevention and implements comprehensive order management with email confirmations.
+          </p>
+          <div class="project-tags">
+            <span class="project-tag">Django</span>
+            <span class="project-tag">PostgreSQL</span>
+            <span class="project-tag">Stripe API</span>
+            <span class="project-tag">AWS EC2</span>
+            <span class="project-tag">Docker</span>
+          </div>
+          <div class="project-stats">
+            <div class="project-stat">
+              <span class="project-stat-value">5K+</span>
+              <span class="project-stat-label">Revenue</span>
+            </div>
+            <div class="project-stat">
+              <span class="project-stat-value">99.9%</span>
+              <span class="project-stat-label">Uptime</span>
+            </div>
+            <div class="project-stat">
+              <span class="project-stat-value">100+</span>
+              <span class="project-stat-label">Orders</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Course Platform -->
+      <div class="project-card">
+        <div class="project-header">
+          <span class="project-icon">📚</span>
+          <h3 class="project-title">Course Management Platform</h3>
+          <p class="project-type">Educational SaaS</p>
+        </div>
+        <div class="project-body">
+          <p class="project-desc">
+            Comprehensive course platform with multi-tier user system (students, instructors, admins), progress tracking, video content delivery, and automated certificate generation. Features real-time messaging between students and instructors with notification system.
+          </p>
+          <div class="project-tags">
+            <span class="project-tag">Django REST</span>
+            <span class="project-tag">WebSockets</span>
+            <span class="project-tag">AWS S3</span>
+            <span class="project-tag">PostgreSQL</span>
+            <span class="project-tag">Redis</span>
+          </div>
+          <div class="project-stats">
+            <div class="project-stat">
+              <span class="project-stat-value">MVP</span>
+              <span class="project-stat-label">Stage</span>
+            </div>
+            <div class="project-stat">
+              <span class="project-stat-value">3-Tier</span>
+              <span class="project-stat-label">User System</span>
+            </div>
+            <div class="project-stat">
+              <span class="project-stat-value">Real-time</span>
+              <span class="project-stat-label">Messaging</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Skills Section -->
+  <section class="section" id="skills">
+    <h2 class="section-title">Technical Arsenal</h2>
+    <div class="skills-grid">
+
+      <div class="skill-card" style="--skill-width: 95%">
+        <span class="skill-icon">🐍</span>
+        <h3 class="skill-name">Django & Python</h3>
+        <p class="skill-desc">Advanced backend development with Django REST Framework, complex ORM queries, PostgreSQL optimization, and scalable architecture patterns</p>
+        <div class="skill-level"><div class="skill-level-fill"></div></div>
+      </div>
+
+      <div class="skill-card" style="--skill-width: 88%">
+        <span class="skill-icon">☁️</span>
+        <h3 class="skill-name">AWS & DevOps</h3>
+        <p class="skill-desc">EC2, RDS, S3 deployment and management. Docker containerization, Linux server administration, and CI/CD pipelines</p>
+        <div class="skill-level"><div class="skill-level-fill"></div></div>
+      </div>
+
+      <div class="skill-card" style="--skill-width: 92%">
+        <span class="skill-icon">⚡</span>
+        <h3 class="skill-name">REST APIs</h3>
+        <p class="skill-desc">Building production-ready APIs with JWT authentication, rate limiting, proper error handling, and API documentation</p>
+        <div class="skill-level"><div class="skill-level-fill"></div></div>
+      </div>
+
+      <div class="skill-card" style="--skill-width: 90%">
+        <span class="skill-icon">💾</span>
+        <h3 class="skill-name">Database Design</h3>
+        <p class="skill-desc">PostgreSQL query optimization, complex relationships, transaction handling, and designing for high-load scenarios</p>
+        <div class="skill-level"><div class="skill-level-fill"></div></div>
+      </div>
+
+      <div class="skill-card" style="--skill-width: 85%">
+        <span class="skill-icon">🎨</span>
+        <h3 class="skill-name">Frontend Integration</h3>
+        <p class="skill-desc">Modern HTML5, CSS3, JavaScript ES6+ with seamless backend integration and responsive design principles</p>
+        <div class="skill-level"><div class="skill-level-fill"></div></div>
+      </div>
+
+      <div class="skill-card" style="--skill-width: 93%">
+        <span class="skill-icon">🔒</span>
+        <h3 class="skill-name">Security & Performance</h3>
+        <p class="skill-desc">Implementing authentication systems, SQL injection prevention, XSS protection, rate limiting, and secure payment processing with Stripe</p>
+        <div class="skill-level"><div class="skill-level-fill"></div></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Experience Section -->
+  <section class="section" id="experience">
+    <h2 class="section-title">Journey So Far</h2>
+    <div class="experience-list">
+
+      <div class="experience-item">
+        <h3 class="experience-title">Freelance Software Engineer</h3>
+        <p class="experience-meta">2022 - Present | Remote</p>
+        <p class="experience-desc">
+          Built and deployed multiple production web applications for international clients. Specialized in e-commerce platforms with Stripe integration, course management systems with complex user hierarchies, and investment marketplaces with real-time features. Successfully earned 10,000+ PLN through consistent project delivery, maintaining 100% client satisfaction while managing AWS infrastructure and PostgreSQL databases at scale.
+        </p>
+      </div>
+
+      <div class="experience-item">
+        <h3 class="experience-title">Lead Backend Developer</h3>
+        <p class="experience-meta">Current Project</p>
+        <p class="experience-desc">
+          Leading technical architecture for a large-scale marketplace platform with emphasis on scalability, security, and performance. Implementing advanced features including real-time WebSocket messaging, secure payment processing, race condition handling for concurrent transactions, and optimizing database queries for 10k+ simultaneous users. Managing complete AWS infrastructure including EC2, RDS, and S3 with Docker containerization.
+        </p>
+      </div>
+
+      <div class="experience-item">
+        <h3 class="experience-title">Programming School Student</h3>
+        <p class="experience-meta">2023 - Present</p>
+        <p class="experience-desc">
+          Accepted into competitive private programming academy based on demonstrated skills through a Python banking script. Deepening knowledge in advanced algorithms, data structures, and software engineering principles while simultaneously building production applications and managing client projects.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta" id="contact">
+    <h2 class="cta-title">Ready to Build Something Great?</h2>
+    <p class="subtitle" style="color: var(--text-secondary); font-size: 20px; margin-bottom: 20px;">Available for freelance projects and technical collaborations</p>
+    <div class="cta-buttons">
+      <a href="mailto:solaradeveloper@gmail.com" class="cta-button">Get In Touch</a>
+      <a href="https://github.com/solaraengineer" class="cta-button secondary">View GitHub</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2024 Solara. Crafted with precision and passion.</p>
+    <div class="social-links">
+      <a href="https://github.com/solaraengineer" title="GitHub">💻</a>
+      <a href="https://instagram.com/voidedtesla" title="Instagram">📸</a>
+      <a href="https://discord.gg/solaradevs" title="Discord">💬</a>
+    </div>
+  </footer>
+
+  <script>
+    // Typing Effect
+    const texts = [
+      'Backend Engineer',
+      'Django Specialist',
+      'AWS Developer',
+      'API Architect',
+      'Database Expert'
+    ];
+    let textIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    const typedTextElement = document.getElementById('typed-text');
+
+    function type() {
+      const currentText = texts[textIndex];
+
+      if (isDeleting) {
+        typedTextElement.textContent = currentText.substring(0, charIndex - 1);
+        charIndex--;
+      } else {
+        typedTextElement.textContent = currentText.substring(0, charIndex + 1);
+        charIndex++;
+      }
+
+      if (!isDeleting && charIndex === currentText.length) {
+        isDeleting = true;
+        setTimeout(type, 2000);
+      } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        textIndex = (textIndex + 1) % texts.length;
+        setTimeout(type, 500);
+      } else {
+        setTimeout(type, isDeleting ? 50 : 100);
+      }
+    }
+
+    setTimeout(type, 1000);
+
+    // Counter Animation
+    function animateCounter(element) {
+      const target = parseInt(element.getAttribute('data-target'));
+      const duration = 2000;
+      const step = target / (duration / 16);
+      let current = 0;
+
+      const counter = setInterval(() => {
+        current += step;
+        if (current >= target) {
+          element.textContent = target.toLocaleString() + (target === 10000 ? '+' : '+');
+          clearInterval(counter);
+        } else {
+          element.textContent = Math.floor(current).toLocaleString();
+        }
+      }, 16);
+    }
+
+    // Intersection Observer for animations
+    const observerOptions = {
+      threshold: 0.2,
+      rootMargin: '0px 0px -100px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+
+          // Animate counters when stats become visible
+          if (entry.target.classList.contains('stat')) {
+            const numberElement = entry.target.querySelector('.stat-number');
+            if (numberElement && !numberElement.classList.contains('animated')) {
+              numberElement.classList.add('animated');
+              animateCounter(numberElement);
+            }
+          }
+        }
+      });
+    }, observerOptions);
+
+    // Observe all animated elements
+    document.querySelectorAll('.section-title, .skill-card, .experience-item, .stat, .cta-title, .cta-button, .project-card').forEach(el => {
+      observer.observe(el);
+    });
+
+    // Floating Particles
+    function createParticle() {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      particle.style.left = Math.random() * window.innerWidth + 'px';
+      particle.style.animationDelay = Math.random() * 6 + 's';
+      particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+      document.getElementById('particles').appendChild(particle);
+
+      setTimeout(() => particle.remove(), 10000);
+    }
+
+    setInterval(createParticle, 800);
+
+    // Smooth scroll with offset
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          window.scrollTo({
+            top: target.offsetTop - 80,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+
+    // Parallax effect on scroll
+    window.addEventListener('scroll', () => {
+      const scrolled = window.pageYOffset;
+      const parallaxElements = document.querySelectorAll('.hero-content');
+      parallaxElements.forEach(el => {
+        el.style.transform = `translateY(${scrolled * 0.5}px)`;
+      });
+    });
+  </script>
+
 </body>
 </html>
