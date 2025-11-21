@@ -15,7 +15,7 @@ body {
 .bg-image {
   position: fixed;
   inset: 0;
-  background-image: url("../assets/Pusheen_Zoom_Background_Campfire_2020.jpg");
+  background-image: url("../../assets/Pusheen_Zoom_Background_Campfire_2020.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -53,7 +53,7 @@ h1, h2 {
 .first:hover, .second:hover, .third:hover {
   transform: scale(1.03);
   box-shadow: 0 0 50px rgba(255, 255, 255, 0.25);
-  cursor: url("../assets/pointypusheen.png"), pointer;
+  cursor: url("../../assets/pointypusheen.png"), pointer;
 }
 
 p {
@@ -71,7 +71,7 @@ p {
 p:hover {
   transform: scale(1.01);
   background: rgba(255, 192, 203, 0.4);
-  cursor: url("../assets/pointypusheen.png"), pointer;
+  cursor: url("../../assets/pointypusheen.png"), pointer;
 }
 .topnav {
   padding: 20px 0;
@@ -103,7 +103,7 @@ p:hover {
 .topnav a:hover {
   scale: 1.1;
   transition: ease 0.4s;
-  cursor: url("../assets/pointypusheen.png"), pointer;
+  cursor: url("../../assets/pointypusheen.png"), pointer;
 }
 @media (max-width: 1150px) {
   .container {

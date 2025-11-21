@@ -41,7 +41,7 @@ function createNewInput() {
 
             if (cmd === 'sudo leave') {
                 terminal.innerHTML = '';
-                window.location.href = "../templates/home.html";
+                window.location.href = "../../home.html";
                 return;
             }
 

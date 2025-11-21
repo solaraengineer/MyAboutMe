@@ -1,8 +1,8 @@
 
 document.getElementById("django").addEventListener("click", () => {
-    window.location.href = "../templates/django.html";
+    window.location.href = "../../django.html";
 });
 
 document.getElementById("javascript").addEventListener("click", () => {
-    window.location.href = "../templates/javascript.html";
+    window.location.href = "../../javascript.html";
 });
